@@ -6,10 +6,11 @@
         public $produtos_empacotados = array();
         public $ctrl_produtos_empacotados = 0;
         
-        public function add_produto($title, $id,  $comprimento, $largura, $altura, $peso_produto){
+        public function add_produto($id, $title, $preco, $comprimento, $largura, $altura, $peso_produto){
             $this->produtos[$this->produtos_configurados] = array();
             $this->produtos[$this->produtos_configurados]["id"] = $id;
             $this->produtos[$this->produtos_configurados]["title"] = $title;
+            $this->produtos[$this->produtos_configurados]["preco"] = $preco;
             $this->produtos[$this->produtos_configurados]["comprimento"] = $this->valida_dimensao($comprimento);
             $this->produtos[$this->produtos_configurados]["largura"] = $this->valida_dimensao($largura);
             $this->produtos[$this->produtos_configurados]["altura"] = $this->valida_dimensao($altura);
@@ -24,19 +25,16 @@
             foreach($this->produtos as $indice => $infoProduto){
                 $empacotado = $infoProduto["empacotado"];
                 if($empacotado == false){
-                    $id = $infoProduto["id"];
-                    $comprimento = $infoProduto["comprimento"];
-                    $largura = $infoProduto["largura"];
-                    $altura = $infoProduto["altura"];
-                    $peso = $infoProduto["peso"];
-                    $pesoCubico = ($comprimento * $largura * $altura) / 6000;
-                    $pesoFinal = $pesoCubico <= 5 || $peso > $pesoCubico ? $peso : $pesoCubico;
                     $carrinho[$ctrl] = array();
-                    $carrinho[$ctrl]["title"] = array();
-                    $carrinho[$ctrl]["A"] = $altura;
-                    $carrinho[$ctrl]["L"] = $largura;
-                    $carrinho[$ctrl]["C"] = $comprimento;
+                    $carrinho[$ctrl]["title"] = $infoProduto["title"];
+                    $carrinho[$ctrl]["id"] = $infoProduto["id"];
+                    $carrinho[$ctrl]["peso"] = $infoProduto["peso"];
+                    $carrinho[$ctrl]["preco"] = $infoProduto["preco"];
+                    $carrinho[$ctrl]["A"] = $infoProduto["altura"];
+                    $carrinho[$ctrl]["L"] = $infoProduto["largura"];
+                    $carrinho[$ctrl]["C"] = $infoProduto["comprimento"];
                     $carrinho[$ctrl]["empacotado"] = false;
+                    
                     $ctrl++;
                 }
             }
