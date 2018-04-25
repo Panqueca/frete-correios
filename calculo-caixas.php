@@ -182,7 +182,6 @@ function calcular_caixas($carrinho = null){
                         $caixas[$ctrl_caixas]->comprimento = $carrinho_frete[$indice_item]['C'];
                     }
 
-
                     if(espaco_disponivel() == false){
                         // calcular volume restante
                         $caixas[$ctrl_caixas]->altura = $alturaAntiga;
@@ -206,6 +205,13 @@ function calcular_caixas($carrinho = null){
         }
     }
     empacotar_itens();
+    
+    foreach($caixas as $index => $info){
+        $larguraAtual = $caixas[$index]->largura;
+        $comprimentoAtual = $caixas[$index]->comprimento;
+        $caixas[$index]->largura = $larguraAtual < MIN_LARGURA ? MIN_LARGURA : $larguraAtual;
+        $caixas[$index]->comprimento = $larguraAtual < MIN_COMPRIMENTO ? MIN_COMPRIMENTO : $comprimentoAtual;
+    }
     
     return $caixas;
 }
